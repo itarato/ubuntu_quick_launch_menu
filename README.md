@@ -20,7 +20,7 @@ Use `_` (underscore) to mark shortkeys.
 
 ```yaml
 menu_items:
-  _Drush :
+  _Drush cache clear:
     command:
       - drush
       - "-r"
@@ -29,12 +29,12 @@ menu_items:
       - all
   Apache:
     menu_items:
-      St_op:
+      Stop:
         command:
           - service
           - apache2
           - stop
-      St_art:
+      Start:
         command:
           - service
           - apache2
