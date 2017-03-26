@@ -1,0 +1,16 @@
+menu_items:
+  Reboot:
+    command:
+      - reboot
+  Apache:
+    menu_items:
+      Stop:
+        command:
+          - service
+          - apache2
+          - stop
+      Start:
+        command:
+          - service
+          - apache2
+          - start

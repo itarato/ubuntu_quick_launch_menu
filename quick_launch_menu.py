@@ -26,7 +26,12 @@ class AppConfig(object):
         """
         Ctor.
         """
-        raw = open(config_file_path).read()
+        try:
+            raw = open(config_file_path).read()
+        except IOError:
+            print """Error - configuration file cannot find. Make sure you 
+                     called setup.py and you have ~/.qlm.yml file."""
+            exit(1)
         cfg = yaml_load(raw)
 
         self.menu_raw = cfg['menu_items']
@@ -59,8 +64,8 @@ def attach_config_to_menu(menu_raw, menu):
             menu_item = gtk.MenuItem(name)
 
         if menu_raw[name].has_key('command'):
-            fn = gen_on_select_callback(name.replace('_', ''), menu_raw[name]['command'])
-            menu_item.connect('activate', fn)
+            on_fn = gen_on_select_callback(name.replace('_', ''), menu_raw[name]['command'])
+            menu_item.connect('activate', on_fn)
 
         if menu_raw[name].has_key('menu_items'):
             submenu = gtk.Menu()
@@ -99,13 +104,13 @@ def main():
     """
     Main entry point.
     """
-    APPINDICATOR_ID = 'quick_launch_menu'
-    cfg = AppConfig('../sample-qlm-config.yml')
+    app_id = 'quick_launch_menu'
+    cfg = AppConfig(os.path.expanduser('~/.qlm.yml'))
 
-    notify.init(APPINDICATOR_ID)
+    notify.init(app_id)
 
     indicator = appindicator.Indicator.new(
-        APPINDICATOR_ID, 'qlm', appindicator.IndicatorCategory.SYSTEM_SERVICES)
+        app_id, 'qlm', appindicator.IndicatorCategory.SYSTEM_SERVICES)
     indicator.set_status(appindicator.IndicatorStatus.ACTIVE)
     indicator.set_icon_theme_path(os.path.abspath('./icons'))
     indicator.set_menu(build_menu(cfg))
