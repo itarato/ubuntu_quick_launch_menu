@@ -26,7 +26,7 @@ def setup_basic_config_file():
     file_path = os.path.expanduser('~/.qlm.yml')
     if not os.path.exists(file_path):
         with open(file_path, 'a+') as cfg_file:
-            sample = open(os.path.abspath('./extras/sample.qml.yml')).read()
+            sample = open(os.path.dirname(__file__) + '/extras/sample.qml.yml').read()
             cfg_file.write(sample)
         print "- Example config file has been added to " + file_path
     else:

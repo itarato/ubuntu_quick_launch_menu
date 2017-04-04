@@ -112,7 +112,7 @@ def main():
     indicator = appindicator.Indicator.new(
         app_id, 'qlm', appindicator.IndicatorCategory.SYSTEM_SERVICES)
     indicator.set_status(appindicator.IndicatorStatus.ACTIVE)
-    indicator.set_icon_theme_path(os.path.abspath('./icons'))
+    indicator.set_icon_theme_path(os.path.dirname(__file__) + '/icons')
     indicator.set_menu(build_menu(cfg))
 
     signal.signal(signal.SIGINT, signal.SIG_DFL)
